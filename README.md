@@ -4,7 +4,7 @@ The agent-facing instructions for voice input: a vendored guide that tells an AI
 coding CLI how to reconstruct and act on a raw speech-to-text transcript. This repo
 owns the guide and its maintenance — nothing else. The system that records,
 transcribes, and delivers transcripts lives in
-[agent-stream-hub](https://github.com/albertwujj/agent-stream-hub) (see its `VOICE.md`)
+[agent-stream-hub](https://github.com/albertwujj/agent-stream-hub) (see its `voice.md`)
 and [agent-term](https://github.com/albertwujj/agent-term).
 
 ## How it's used

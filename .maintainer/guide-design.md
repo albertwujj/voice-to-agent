@@ -3,7 +3,7 @@
 **Maintainer-facing.** Rationale behind [interpret.md](../interpret.md) — why each line is
 there and why others were removed. Edit the guide with these in mind. The *system*
 that delivers transcripts (hub, `/voice` API, whisper config, phone UX, source
-injection) is documented in `VOICE.md` in the
+injection) is documented in `voice.md` in the
 [agent-stream-hub](https://github.com/albertwujj/agent-stream-hub) repo; this repo owns
 only the agent-facing instructions and this file.
 
