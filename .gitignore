@@ -2,3 +2,7 @@
 *.log
 scratch/
 node_modules/
+
+# Host-generated review threads — never part of the kit.
+.agent-threads/
+.*-comments.json
