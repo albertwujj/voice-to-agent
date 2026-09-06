@@ -12,13 +12,16 @@ and [agent-term](https://github.com/albertwujj/agent-term).
 A source injects each spoken command as:
 
 ```
-[@voice-to-agent/interpret.md]
+[<absolute path to interpret.md>]
 <raw transcript>
 ```
 
-The `@`-reference names the guide as the action to take; the agent reads it, repairs the
+The reference names the guide as the action to take; the agent reads it, repairs the
 transcript against session context (no pipeline stage corrects it — the agent has the most
-context), and acts.
+context), and acts. A source that cannot resolve the path sends
+`[@voice-to-agent/interpret.md]` instead and the agent locates the guide itself; see
+[.maintainer/guide-design.md](./.maintainer/guide-design.md) for why the resolved form is
+preferred.
 
 ## Files
 
@@ -31,5 +34,19 @@ context), and acts.
 
 ## Install
 
-Vendor this repo into any project you want to drive by voice — anywhere in the tree
-(`tools/`, `third_party/`, the root), keeping the folder name `voice-to-agent`.
+Clone this repo where a source will look for it. Lookup is by folder name, nearest
+first, so one clone can serve one project or every project on the machine:
+
+- **`~/voice-to-agent`** — serves every project. The usual choice, and the one to make
+  if you are unsure.
+- **`<repo>/ai/voice-to-agent`** — serves that project and wins over a home clone there.
+  `ai/` holds the whole vendored set behind one line in `git status`.
+- **`<repo>/voice-to-agent`**, or any directory above the repo — also found.
+
+Two things to keep right. The folder name is the namespace the reference uses, so keep
+it. And the lookup walks directories rather than searching, so a clone tucked inside a
+folder of your own (`tools/`, `third_party/`) is not on that path and will not be found.
+
+agent-term's [placement guide](https://github.com/albertwujj/agent-term/blob/main/docs/conventions.md)
+covers the same ladder for every kit in the suite, including why a clone inside a repo
+overrides one under home.
