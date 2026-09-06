@@ -66,6 +66,29 @@ Reference and filename co-designed:
   deliver via bracketed paste (the terminal escape, distinct from the literal `[…]` above)
   so the newline doesn't submit early.
 
+### When the source cannot resolve it
+
+A source that looked and found nothing prepends a host line, then the bare reference, then
+the transcript. Rationale for the shape:
+
+- **The long form is said once per instance.** It is the only chance to say where the host
+  looked, that the agent should not go looking itself (an unbounded search is the cost
+  this whole change exists to avoid), what the text actually is, and the one URL that
+  explains the fix.
+- **Repeats drop to `[Notice…]`, and to the operative clause alone.** Same envelope
+  family as the host's other injections, one severity down: the fact has already been
+  raised, and repeating the heavier word for something said a minute ago reads as alarm
+  without news. What survives is only what has to be true on every turn — the text is
+  dictated speech, repair it, ask rather than guess. The missing guide, where the host
+  looked and how to fix it are meta about a fact already delivered. This is the guide's
+  own opening line, which is what the envelope owes an agent that cannot read the guide.
+- **State is per instance, so a resumed session says the long form again.** The host
+  cannot know what a previous agent was told, and a fresh context needs it as much as a
+  first one did.
+- **The bare reference still follows the host line.** It is the contract, it carries the
+  verb, and a source that re-runs its lookup between utterances lets a clone made after
+  the warning cancel the warning on the next one.
+
 ## Why the guide reads the way it does
 
 - **Bold trigger line first** — family runbook convention: state when it applies and
