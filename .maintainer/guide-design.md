@@ -19,10 +19,11 @@ sound-shadow survives into text — the guide's repair rules work on that shadow
 ## The injected prompt (contract with sources)
 
 ```
-[@voice-to-agent/interpret.md]
+[<absolute path to the vendored interpret.md>]
 <raw transcript>
 ```
 
+The source resolves that path and sends `[@voice-to-agent/interpret.md]` when it cannot.
 Reference and filename co-designed:
 
 - **`@voice-to-agent/interpret.md` — the reference *is* the action.** A reference meant
@@ -31,24 +32,32 @@ Reference and filename co-designed:
   interpretation-guide.md and follow it"); here the verb moves into the filename —
   `interpret.md`, referenced bare, *is* the action ("interpret this"). Same invariant, the
   action-reference carries the verb, with no surrounding words. `@` is the file-reference
-  gesture a user already makes via a CLI's picker, so the model reads `@…/interpret.md` as
-  "read this file and act on it." This is interpretation, not mechanical `@`-expansion, so
-  the agent locates the guide wherever the kit is vendored (globs the folder) rather than
-  resolving a fixed cwd-relative path.
+  gesture a user already makes via a CLI's picker, so the model reads `…/interpret.md` as
+  "read this file and act on it." This is interpretation, not mechanical `@`-expansion:
+  what follows the last slash is the action, whether the segments before it are a folder
+  or a full path.
 - **`[…]` frames it as meta, not content.** The reference is the envelope, not the request
   — matching the guide's own last line ("framing, never the task"). It also parallels the
   host's own injections into this stream (`[Notice from terminal host]` /
   `[Warning from terminal host]`): a bracketed line is meta; the content is what follows on
   the next line.
-- **Folder-qualified, no path.** Kits are vendored whole, folder name kept, anywhere in
-  the tree — the folder is the namespace, so no directory path is needed. A bare filename
-  could collide with a project's own docs.
+- **Resolved by the source, not searched for by the agent.** The reference was
+  folder-qualified with no path on the reasoning that kits are vendored whole, folder name
+  kept, anywhere in the tree — the folder is the namespace, so the agent can find it. It
+  can, but only by searching, and this is the one prompt that arrives when the user is
+  away. An unbounded walk costs minutes nobody is watching, and coming up empty is silent:
+  the agent then reads raw speech-to-text as if it were typed, which is the single failure
+  this guide exists to prevent. A source that already resolves runbooks for its other
+  surfaces knows which copy wins and can name it, so it does. The folder segment stays in
+  the resolved path, so it still separates this `interpret.md` from a project's own.
 - **Reference every time, no state.** No primed flag, no compaction detection in the
-  source. The agent locates the guide, remembers it, and re-reads only if it was compacted
-  out of context — it self-manages caching and location.
-- **Degrades when absent (no explicit label).** With the verb in the reference, the agent
-  still knows the action if the guide can't be read — `interpret.md` names "interpret the
-  text that follows." What's lost is the dictation framing and the repair rules, which now
+  source. The agent reads the guide, remembers it, and re-reads only if it was compacted
+  out of context — it self-manages caching. A source may cache its own resolution; that is
+  the source's business, not the guide's.
+- **Degrades twice, both silently survivable.** A source that cannot resolve the path
+  falls back to `@voice-to-agent/interpret.md` and the agent searches as before. And with
+  the verb in the reference, the agent still knows the action if the guide cannot be read
+  at all — `interpret.md` names "interpret the text that follows." What's lost is the dictation framing and the repair rules, which now
   live only in the guide; the earlier "User input transcript —" label carried a weaker
   version of that framing in the envelope itself, and this form trades that redundancy for
   zero surrounding words. No separate "Transcript:" label follows — the guide defines the
@@ -83,7 +92,7 @@ Reference and filename co-designed:
 
 - Keep the guide runtime-only and short; anything explanatory moves here.
 - The filename and the prompt reference are a **published contract** with sources
-  (agent-term holds them as constants) — renaming either is a coordinated change
-  across repos.
+  (agent-term holds the relative path as a constant and resolves it against its own
+  runbook ladder) — renaming either is a coordinated change across repos.
 - `.maintainer/` exists so the repo root is exactly the vendored runtime surface;
   never add maintainer docs to the root.
